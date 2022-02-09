@@ -15,16 +15,18 @@ const listBox = document.getElementById("listBox");
 const saveInd = document.getElementById("saveIndex");
 
 let todo = [];
+document.getElementById("btn").hidden = true;
 addTaskButton.addEventListener("click", (e) => {
     e.preventDefault();
     let todoArray = localStorage.getItem("todoArray");
     if (todoArray === null) {
         todo = [];
-        alert("Please Enter a Task")
+
     } else {
 
         todo = JSON.parse(todoArray);
     }
+
     todo.push(text.value);
     text.value = "";
     localStorage.setItem("todoArray", JSON.stringify(todo));
@@ -37,11 +39,11 @@ function displayTodo() {
     let todoArray = localStorage.getItem("todoArray");
     if (todoArray === null) {
         todo = [];
-        alert("Please Enter a Task")
     } else {
 
         todo = JSON.parse(todoArray);
     }
+
     let htmlCode = "";
     todo.forEach((list, ind) => {
         htmlCode += `<div id="task">
@@ -49,11 +51,12 @@ function displayTodo() {
          <p id="taskname">${list}</p>
          </div>
 
-   <button id="edit" onclick='edit(${ind})'><i class="fas fa-edit"></i></button>
-   <button id="delete" onclick='deleteTodo(${ind})' ><i class="fas fa-trash" > </i></button>
+   <button class="btn-red" onclick='edit(${ind})'><i class="fas fa-edit"></i></button>
+   <button class="btn-blue" onclick='deleteTodo(${ind})' ><i class="fas fa-trash" > </i></button>
   
 </div>`;
     });
+    document.getElementById("btn").hidden = false;
     listBox.innerHTML = htmlCode;
 }
 
@@ -90,6 +93,6 @@ saveTaskButton.addEventListener("click", () => {
 
 // to clear the local storage
 document.querySelector('#btn').onclick = function() {
-    alert("to clear local storage")
     localStorage.clear();
+    displayTodo();
 }
